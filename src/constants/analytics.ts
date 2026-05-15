@@ -1,11 +1,10 @@
 // Analytics and tracking constants
-// export const ANALYTICS_CONFIG = {
-//   GA_TRACKING_ID: process.env.REACT_APP_GA_TRACKING_ID,
-//   GTAG_ID: process.env.REACT_APP_GTAG_ID,
-//   HOTJAR_ID: process.env.REACT_APP_HOTJAR_ID,
-//   MIXPANEL_TOKEN: process.env.REACT_APP_MIXPANEL_TOKEN,
-//   FACEBOOK_PIXEL_ID: process.env.REACT_APP_FACEBOOK_PIXEL_ID,
-// } as const;
+const env = (import.meta as any).env as Record<string, string | undefined>;
+
+export const ANALYTICS_CONFIG = {
+  ENABLE_ANALYTICS: env.VITE_ENABLE_ANALYTICS === 'true',
+  GTAG_ID: env.VITE_GTAG_ID || env.VITE_GA_TRACKING_ID || 'G-1BP6XZ1NGC',
+} as const;
 
 export const ANALYTICS_EVENTS = {
   // Page Views

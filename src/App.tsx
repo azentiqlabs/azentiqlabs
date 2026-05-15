@@ -1,5 +1,6 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { initGoogleAnalytics, trackPageView } from "./utils/analytics";
 import Layout from './components/Layout';
 import Hero from './components/Hero';
 import Services from './components/Services';
@@ -10,9 +11,24 @@ import BusinessStrategy from './components/BusinessStrategy';
 import Contact from './components/Contact';
 // import NotFound from "./pages/NotFound";
 
+const RouteTracker: React.FC = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    trackPageView(location.pathname + location.search);
+  }, [location]);
+
+  return null;
+};
+
 const App: React.FC = () => {
+  useEffect(() => {
+    initGoogleAnalytics();
+  }, []);
+
   return (
     <Router>
+      <RouteTracker />
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Hero />} />
