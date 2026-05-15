@@ -1,18 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Azentiq Labs — Technology That Transforms Ideas Into Reality. Website Development, Mobile Apps, Custom Software & more." />
-    <title>Azentiq Labs | Innovate · Build · Elevate</title>
-    <style>
-      body { margin: 0; background: #060a12; }
-      #root { min-height: 100vh; }
-    </style>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Azentiq Labs — Technology That Transforms Ideas Into Reality. Website Development, Mobile Apps, Custom Software, E-Commerce & Digital Marketing from Pune, India." />
+  <meta name="keywords" content="website development, mobile app development, custom software, e-commerce solutions, digital marketing, UI/UX design, Pune, India" />
+  <meta name="author" content="Azentiq Labs" />
+  <meta name="robots" content="index, follow" />
+  <meta name="language" content="English" />
+  <meta name="theme-color" content="#060a12" />
+  
+  <!-- Open Graph Tags -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Azentiq Labs | Innovate · Build · Elevate" />
+  <meta property="og:description" content="Technology That Transforms Ideas Into Reality. We deliver innovative website, mobile app, and custom software solutions." />
+  <meta property="og:image" content="/header-logo.png" />
+  <meta property="og:url" content="https://azentiqlabs.vercel.app" />
+  <meta property="og:site_name" content="Azentiq Labs" />
+  
+  <!-- Twitter Card Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Azentiq Labs | Innovate · Build · Elevate" />
+  <meta name="twitter:description" content="Technology That Transforms Ideas Into Reality. Website, Mobile Apps, Custom Software & more." />
+  <meta name="twitter:image" content="/header-logo.png" />
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://azentiqlabs.vercel.app" />
+  
+  <!-- Preconnect to external resources -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" />
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+  
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <title>Azentiq Labs | Innovate · Build · Elevate</title>
+  <style>
+    body {
+      margin: 0;
+      background: #060a12;
+    }
+
+    #root {
+      min-height: 100vh;
+    }
+  </style>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1BP6XZ1NGC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-1BP6XZ1NGC');
+  </script>
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Azentiq Labs",
+    "url": "https://azentiqlabs.vercel.app",
+    "logo": "https://azentiqlabs.vercel.app/header-logo.png",
+    "description": "Technology That Transforms Ideas Into Reality. Website Development, Mobile Apps, Custom Software, E-Commerce & Digital Marketing.",
+    "image": "https://azentiqlabs.vercel.app/header-logo.png",
+    "sameAs": [
+      "https://www.facebook.com/azentiq",
+      "https://www.twitter.com/azentiq",
+      "https://www.linkedin.com/company/azentiq",
+      "https://github.com/azentiq"
+    ],
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Pune",
+      "addressRegion": "Maharashtra",
+      "addressCountry": "India"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "Customer Support",
+      "email": "info@azentiq-labs.com"
+    }
+  }
+  </script>
+
+  <!-- Local Business Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Azentiq Labs",
+    "image": "https://azentiqlabs.vercel.app/header-logo.png",
+    "description": "Technology That Transforms Ideas Into Reality",
+    "url": "https://azentiqlabs.vercel.app",
+    "telephone": "+91-8329305232",
+    "email": "azentiqlabs@gmail.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Pune",
+      "addressLocality": "Pune",
+      "addressRegion": "Maharashtra",
+      "postalCode": "411001",
+      "addressCountry": "IN"
+    },
+    "areaServed": {
+      "@type": "GeoShape",
+      "box": "19.7515,73.3136 19.0760,73.8129"
+    },
+    "priceRange": "$$"
+  }
+  </script>
+
+  <!-- Service Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Azentiq Labs",
+    "url": "https://azentiqlabs.vercel.app",
+    "logo": "https://azentiqlabs.vercel.app/header-logo.png",
+    "description": "Professional IT Services",
+    "areaServed": "IN",
+    "makesOffer": [
+      {
+        "@type": "Service",
+        "name": "Website Development",
+        "description": "Modern, responsive & SEO-optimised websites engineered to convert visitors into loyal customers."
+      },
+      {
+        "@type": "Service",
+        "name": "Mobile App Development",
+        "description": "Native & cross-platform Android and iOS apps delivering seamless, engaging experiences."
+      },
+      {
+        "@type": "Service",
+        "name": "Custom Software",
+        "description": "Powerful, scalable & secure software solutions purpose-built for your unique business workflows."
+      },
+      {
+        "@type": "Service",
+        "name": "E-Commerce Solutions",
+        "description": "High-converting online stores packed with smart features and frictionless UX."
+      },
+      {
+        "@type": "Service",
+        "name": "Digital Marketing",
+        "description": "Data-driven strategies that grow your brand, amplify reach, and attract more qualified clients."
+      },
+      {
+        "@type": "Service",
+        "name": "UI/UX Design",
+        "description": "Research-led, pixel-perfect designs that captivate users and drive measurable business outcomes."
+      }
+    ],
+    "review": {
+      "@type": "Review",
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": "5"
+      }
+    }
+  }
+  </script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
 </html>

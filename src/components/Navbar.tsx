@@ -7,7 +7,7 @@ const Navbar: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
 
-  const activeSection = location.pathname === "/" ? "home" : location.pathname.slice(1);
+  const isActive = (path: string) => location.pathname === path;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -24,32 +24,35 @@ const Navbar: React.FC = () => {
       transition: "all 0.35s ease",
     }}>
       <div style={{
-        maxWidth: 1240, margin: "0 auto", padding: "0 28px",
-        display: "flex", alignItems: "center", height: 70, gap: 32,
-      }}>
+          maxWidth: 1240, margin: "0 auto", padding: "0 28px",
+          display: "flex", alignItems: "center", height: 70, gap: 32,
+        }} className="navbar-container" >
         {/* Logo */}
         <Link
           to="/"
           style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer", flexShrink: 0, textDecoration: "none" }}
         >
-          <div style={{
-            width: 38, height: 38, background: "linear-gradient(135deg, #C9A84C, #e8c96a)",
-            borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center",
-            fontWeight: 900, fontSize: 18, color: "#060a12", fontFamily: "'Georgia', serif",
-            boxShadow: "0 0 20px rgba(201,168,76,0.4)",
-          }}>A</div>
-          <div>
-            <div style={{ fontSize: 16, fontWeight: 900, color: "#fff", letterSpacing: 3, lineHeight: 1, fontFamily: "'Georgia', serif" }}>
-              AZENTIQ <span style={{ color: "#C9A84C" }}>LABS</span>
-            </div>
-            <div style={{ fontSize: 8, color: "#C9A84C99", letterSpacing: 4, fontFamily: "sans-serif", fontWeight: 600 }}>
-              INNOVATE · BUILD · ELEVATE
-            </div>
+          <img
+            src="/favicon.png"
+            alt="Azentiq Labs logo"
+            style={{
+              width: 38, height: 38, objectFit: "contain",
+              borderRadius: 8, boxShadow: "0 0 20px rgba(201,168,76,0.4)",
+            }}
+          />
+          <div
+            style={{
+              fontSize: 16, fontWeight: 900, color: "#fff",
+              letterSpacing: 3, lineHeight: 1, fontFamily: "'Georgia', serif",
+            }}
+            className="logo-text"
+          >
+            AZENTIQ
           </div>
         </Link>
 
-        {/* Desktop Nav */}
-        <div style={{ display: "flex", gap: 2, marginLeft: "auto", alignItems: "center" }}>
+        {/* Desktop Nav — hidden on mobile via CSS class */}
+        <div className="desktop-nav" style={{ display: "flex", gap: 2, marginLeft: "auto", alignItems: "center" }}>
           {NAV_LINKS.map(({ label, id }) => (
             <Link
               key={id}
@@ -58,24 +61,27 @@ const Navbar: React.FC = () => {
                 textDecoration: "none",
                 background: "none", border: "none", cursor: "pointer",
                 fontSize: 12, fontWeight: 700, letterSpacing: 1.5,
-                color: activeSection === id ? "#C9A84C" : "#aaa",
-                padding: "8px 16px", fontFamily: "sans-serif", textTransform: "uppercase",
+                color: isActive(id === "home" ? "/" : `/${id}`) ? "#C9A84C" : "#aaa",
+                padding: "8px 16px", fontFamily: "sans-serif", textTransform: "uppercase", 
                 position: "relative", transition: "color 0.2s",
               }}
             >
               {label}
-              {activeSection === id && (
+              {isActive(id === "home" ? "/" : `/${id}`) && (
                 <span style={{
-                  position: "absolute", bottom: 2, left: "50%", transform: "translateX(-50%)",
-                  width: 20, height: 2, background: "#C9A84C", borderRadius: 1,
+                  position: "absolute", bottom: 2, left: "50%",
+                  transform: "translateX(-50%)", width: 20, height: 2,
+                  background: "#C9A84C", borderRadius: 1,
                 }} />
               )}
             </Link>
           ))}
         </div>
 
+        {/* Get Started — hidden on mobile via CSS class */}
         <Link
           to="/contact"
+          className="get-started-btn"
           style={{
             textDecoration: "none",
             background: "linear-gradient(135deg, #C9A84C, #b8942e)",
@@ -89,22 +95,29 @@ const Navbar: React.FC = () => {
           Get Started
         </Link>
 
-        {/* Hamburger */}
+        {/* Hamburger — shown on mobile via CSS class */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          style={{
-            display: "none", background: "none", border: "none", cursor: "pointer",
-            flexDirection: "column", gap: 5, padding: 8,
-          }}
           className="hamburger"
+          style={{
+            background: "none", border: "none", cursor: "pointer",
+            flexDirection: "column", gap: 5, padding: 8,
+            borderRadius: 4, transition: "background-color 0.2s",
+            marginLeft: "auto",
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "rgba(201,168,76,0.1)")}
+          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
+          aria-label="Toggle menu"
         >
           {[0, 1, 2].map((i) => (
             <span key={i} style={{
               display: "block", width: 22, height: 2,
               background: menuOpen && i === 1 ? "transparent" : "#C9A84C",
               borderRadius: 2, transition: "all 0.3s",
-              transform: menuOpen && i === 0 ? "rotate(45deg) translate(5px,5px)"
-                : menuOpen && i === 2 ? "rotate(-45deg) translate(5px,-5px)" : "none",
+              transform:
+                menuOpen && i === 0 ? "rotate(45deg) translate(5px,5px)"
+                : menuOpen && i === 2 ? "rotate(-45deg) translate(5px,-5px)"
+                : "none",
             }} />
           ))}
         </button>
@@ -112,10 +125,37 @@ const Navbar: React.FC = () => {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div style={{
-          background: "#0a1220", padding: "16px 28px 28px",
-          borderTop: "1px solid rgba(201,168,76,0.15)",
-        }}>
+        <div
+          className="mobile-menu"
+          style={{
+            background: "#0a1220", padding: "16px 28px 28px",
+            borderTop: "1px solid rgba(201,168,76,0.15)",
+          }}
+        >
+          <div style={{
+            display: "flex", justifyContent: "space-between", alignItems: "center",
+            marginBottom: 16, paddingBottom: 12,
+            borderBottom: "1px solid rgba(255,255,255,0.06)",
+          }}>
+            <span style={{
+              fontSize: 14, color: "#C9A84C", fontWeight: 700,
+              fontFamily: "sans-serif", letterSpacing: 1,
+            }}>
+              MENU
+            </span>
+            <button
+              onClick={() => setMenuOpen(false)}
+              style={{
+                background: "none", border: "none", cursor: "pointer",
+                color: "#888", fontSize: 18, padding: 4,
+                borderRadius: 4, transition: "color 0.2s",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#C9A84C")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "#888")}
+            >
+              ✕
+            </button>
+          </div>
           {NAV_LINKS.map(({ label, id }) => (
             <Link
               key={id}
@@ -123,11 +163,12 @@ const Navbar: React.FC = () => {
               onClick={() => setMenuOpen(false)}
               style={{
                 display: "block", width: "100%", textAlign: "left",
-                textDecoration: "none", background: "none", border: "none", padding: "14px 0",
+                background: "none", border: "none", padding: "14px 0",
                 fontSize: 14, fontWeight: 700, color: "#ccc",
                 cursor: "pointer", borderBottom: "1px solid rgba(255,255,255,0.06)",
-                fontFamily: "sans-serif", letterSpacing: 1,
+                fontFamily: "sans-serif", letterSpacing: 1, textDecoration: "none",
               }}
+              className="mobile-menu-link"
             >
               {label}
             </Link>
@@ -136,12 +177,14 @@ const Navbar: React.FC = () => {
             to="/contact"
             onClick={() => setMenuOpen(false)}
             style={{
-              display: "block", marginTop: 16, width: "100%", textDecoration: "none",
+              marginTop: 16, width: "100%", display: "block",
               background: "linear-gradient(135deg,#C9A84C,#b8942e)",
               color: "#060a12", border: "none", borderRadius: 6,
               padding: "14px", fontSize: 13, fontWeight: 800, cursor: "pointer",
-              fontFamily: "sans-serif", letterSpacing: 1, textAlign: "center",
+              fontFamily: "sans-serif", letterSpacing: 1,
+              textDecoration: "none", textAlign: "center",
             }}
+            className="mobile-menu-cta"
           >
             Get Started
           </Link>
@@ -149,10 +192,37 @@ const Navbar: React.FC = () => {
       )}
 
       <style>{`
+        /* ── Desktop: show nav links + CTA, hide hamburger ── */
+        .hamburger        { display: none !important; }
+        .desktop-nav      { display: flex !important; }
+        .get-started-btn  { display: inline-flex !important; }
+
+        /* ── Tablet / Mobile ≤ 768px ── */
         @media (max-width: 768px) {
-          .hamburger { display: flex !important; }
-          .desktop-nav { display: none !important; }
+          .hamburger        { display: flex !important; }
+          .desktop-nav      { display: none !important; }
+          .get-started-btn  { display: none !important; }
+          .navbar-container { padding: 0 20px !important; height: 64px !important; gap: 16px !important; }
+          .logo-text        { font-size: 15px !important; letter-spacing: 2px !important; }
         }
+
+        /* ── Small mobile ≤ 480px ── */
+        @media (max-width: 480px) {
+          .navbar-container  { padding: 0 16px !important; height: 60px !important; }
+          .logo-text         { font-size: 14px !important; }
+          .mobile-menu       { padding: 20px 16px 24px !important; }
+          .mobile-menu-link  { padding: 16px 0 !important; font-size: 15px !important; }
+          .mobile-menu-cta   { margin-top: 20px !important; padding: 16px !important; font-size: 14px !important; }
+        }
+
+        /* ── Extra small ≤ 360px ── */
+        @media (max-width: 360px) {
+          .navbar-container { padding: 0 12px !important; }
+          .logo-text        { font-size: 13px !important; }
+        }
+
+        /* ── Hover state for mobile menu links ── */
+        .mobile-menu-link:hover { color: #C9A84C !important; }
       `}</style>
     </nav>
   );

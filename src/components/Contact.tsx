@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { CONTACT_INFO, FORM_LABELS, FORM_PLACEHOLDERS, ERROR_MESSAGES, SUCCESS_MESSAGES } from "../constants";
 import { SERVICES } from "../data"; // Keep services from data as it's dynamic content
 import type { FormData, FormStatus } from "../types";
+import emailjs from "@emailjs/browser";
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
@@ -25,38 +26,39 @@ const Contact: React.FC = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => setFormData((prev) => ({ ...prev, [field]: e.target.value }));
 
-  const handleSubmit = async (): Promise<void> => {
-    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
-      setFormStatus("error");
-      setTimeout(() => setFormStatus(null), 4000);
-      return;
-    }
+const handleSubmit = async (): Promise<void> => {
+  if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+    setFormStatus("error");
+    setTimeout(() => setFormStatus(null), 4000);
+    return;
+  }
 
-    setFormStatus("sending");
+  setFormStatus("sending");
 
-    const subject = encodeURIComponent(
-      `New Enquiry from ${formData.name} — Azentiq Labs Website`
+  try {
+    await emailjs.send(
+      "service_w9q4azg",
+      "template_1f523t4",
+      {
+        from_name:    formData.name,
+        from_email:   formData.email,
+        phone:        formData.phone || "Not provided",
+        service:      formData.service || "Not specified",
+        message:      formData.message,
+      },
+      "-ihFoTZW0ncIp8ifW"
     );
-    const body = encodeURIComponent(
-      `Hello Azentiq Labs Team,\n\nYou have received a new enquiry from your website.\n\n` +
-      `━━━━━━━━━━━━━━━━━━━━━\n` +
-      `Name    : ${formData.name}\n` +
-      `Email   : ${formData.email}\n` +
-      `Phone   : ${formData.phone || "Not provided"}\n` +
-      `Service : ${formData.service || "Not specified"}\n` +
-      `━━━━━━━━━━━━━━━━━━━━━\n\n` +
-      `Message:\n${formData.message}\n\n` +
-      `— Sent via Azentiq Labs Website`
-    );
 
-    window.location.href = `mailto:azentiqlabs@gmail.com?subject=${subject}&body=${body}`;
+    setFormStatus("success");
+    setFormData({ name: "", email: "", phone: "", service: "", message: "" });
+    setTimeout(() => setFormStatus(null), 5000);
 
-    setTimeout(() => {
-      setFormStatus("success");
-      setFormData({ name: "", email: "", phone: "", service: "", message: "" });
-      setTimeout(() => setFormStatus(null), 5000);
-    }, 1000);
-  };
+  } catch (err) {
+    console.error("EmailJS error:", err);
+    setFormStatus("error");
+    setTimeout(() => setFormStatus(null), 4000);
+  }
+};
 
   const inputStyle = (field: string): React.CSSProperties => ({
     width: "100%", padding: "14px 16px",
@@ -71,7 +73,7 @@ const Contact: React.FC = () => {
     <section id="contact" style={{
       padding: "120px 28px",
       background: "linear-gradient(180deg, #0a1220 0%, #060a12 100%)",
-    }}>
+    }} className="contact-section">
       <style>{`
         @keyframes fadeUp {
           from { opacity: 0; transform: translateY(30px); }
@@ -80,6 +82,19 @@ const Contact: React.FC = () => {
         @media (max-width: 900px) {
           .contact-layout { grid-template-columns: 1fr !important; }
           .form-row { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 768px) {
+          .contact-section { padding: "80px 20px" !important; }
+          .contact-layout { gap: 32px !important; }
+          .contact-form { padding: "32px 28px" !important; }
+          .contact-info-item { padding: "16px 18px" !important; }
+          .contact-special-offer { padding: "18px 20px" !important; }
+        }
+        @media (max-width: 480px) {
+          .contact-section { padding: "60px 16px" !important; }
+          .contact-layout { gap: 24px !important; }
+          .contact-form { padding: "24px 20px" !important; }
+          .form-row { gap: 12px !important; }
         }
         ::placeholder { color: #4a5a6e !important; }
         select option { background: #0d1b2a; color: #fff; }
@@ -129,7 +144,7 @@ const Contact: React.FC = () => {
                 background: "rgba(255,255,255,0.03)",
                 border: "1px solid rgba(255,255,255,0.07)",
                 borderRadius: 12, padding: "20px 22px",
-              }}>
+              }} className="contact-info-item">
                 <div style={{
                   width: 44, height: 44, borderRadius: 10,
                   background: "rgba(201,168,76,0.1)", border: "1px solid rgba(201,168,76,0.2)",
@@ -164,7 +179,7 @@ const Contact: React.FC = () => {
               border: "1px solid rgba(201,168,76,0.25)",
               borderRadius: 12, padding: "22px 24px",
               marginTop: 4,
-            }}>
+            }} className="contact-special-offer">
               <div style={{ fontSize: 24, marginBottom: 10 }}>🎁</div>
               <div style={{
                 fontSize: 15, fontWeight: 800, color: "#C9A84C",
@@ -186,7 +201,7 @@ const Contact: React.FC = () => {
             background: "rgba(255,255,255,0.02)",
             border: "1px solid rgba(255,255,255,0.07)",
             borderRadius: 20, padding: "44px 40px",
-          }}>
+          }} className="contact-form">
             <h3 style={{
               fontSize: 22, fontWeight: 800, color: "#fff",
               fontFamily: "'Georgia', serif", marginBottom: 32,

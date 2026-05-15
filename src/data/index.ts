@@ -1,5 +1,16 @@
 import type { Service, WhyItem, Stat, NavLink } from "../types";
 
+// Startup configuration
+const STARTUP_START_DATE = new Date('2026-04-25'); // Day 1 of business
+
+// Utility function to calculate days in business
+const getDaysInBusiness = (): number => {
+  const today = new Date();
+  const diffTime = today.getTime() - STARTUP_START_DATE.getTime();
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  return Math.max(1, diffDays); // Ensure at least day 1
+};
+
 export const NAV_LINKS: NavLink[] = [
   { label: "Home", id: "home" },
   { label: "Services", id: "services" },
@@ -28,10 +39,10 @@ export const WHY_US: WhyItem[] = [
 ];
 
 export const STATS: Stat[] = [
-  { num: "100+", label: "Projects" },
-  { num: "50+", label: "Clients" },
-  { num: "5+", label: "Years" },
-  { num: "3", label: "Cities" },
+  { num: getDaysInBusiness().toString(), label: "Days in Business" },
+  { num: "10+", label: "Projects" },
+  { num: "100%", label: "Dedication" },
+  { num: "∞", label: "Growth Potential" },
 ];
 
 export const CITIES = ["Pune", "Akola", "Amravati"];

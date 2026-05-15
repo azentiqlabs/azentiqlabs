@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from './components/Layout';
 import Hero from './components/Hero';
 import Services from './components/Services';
@@ -8,6 +8,7 @@ import Testimonials from './components/Testimonials';
 import BeforeAfter from './components/BeforeAfter';
 import BusinessStrategy from './components/BusinessStrategy';
 import Contact from './components/Contact';
+// import NotFound from "./pages/NotFound";
 
 const App: React.FC = () => {
   return (
@@ -22,6 +23,7 @@ const App: React.FC = () => {
           <Route path="strategy" element={<BusinessStrategy />} />
           <Route path="contact" element={<Contact />} />
         </Route>
+        {/* <Route path="*" element={<NotFound />} /> */}
       </Routes>
     </Router>
   );
