@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { ANALYTICS_EVENTS, ANALYTICS_CATEGORIES, ANALYTICS_LABELS } from "../../constants/analytics";
+import { trackEvent } from "../../utils/analytics";
 
 interface CTASectionProps {
   title: string;
@@ -54,6 +56,11 @@ const CTASection: React.FC<CTASectionProps> = ({
         <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
           <Link
             to={primaryButtonLink}
+            onClick={() => trackEvent({
+              action: ANALYTICS_EVENTS.BUTTON_CLICK,
+              category: ANALYTICS_CATEGORIES.CONVERSION,
+              label: ANALYTICS_LABELS.PRIMARY_CTA,
+            })}
             style={{
               background: "#060a12",
               color: "#C9A84C",
@@ -73,6 +80,11 @@ const CTASection: React.FC<CTASectionProps> = ({
           </Link>
           <a
             href={secondaryButtonLink}
+            onClick={() => trackEvent({
+              action: ANALYTICS_EVENTS.LINK_CLICK,
+              category: ANALYTICS_CATEGORIES.INTERACTION,
+              label: ANALYTICS_LABELS.SECONDARY_CTA,
+            })}
             style={{
               background: "transparent",
               color: "#060a12",

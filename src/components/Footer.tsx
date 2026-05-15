@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { ANALYTICS_EVENTS, ANALYTICS_CATEGORIES, ANALYTICS_LABELS } from "../constants/analytics";
+import { trackEvent } from "../utils/analytics";
 
 const Footer: React.FC = () => {
   const year = new Date().getFullYear();
@@ -62,7 +64,14 @@ const Footer: React.FC = () => {
         }} className="footer-grid">
           {/* Brand */}
           <div className="footer-brand">
-            <Link to="/" style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20, cursor: "pointer", textDecoration: "none" }}>
+            <Link
+            to="/"
+            onClick={() => trackEvent({
+              action: ANALYTICS_EVENTS.LINK_CLICK,
+              category: ANALYTICS_CATEGORIES.INTERACTION,
+              label: ANALYTICS_LABELS.HEADER_NAV,
+            })}
+            style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20, cursor: "pointer", textDecoration: "none" }}>
               <img
                 src="/footer-logo.png"
                 alt="Azentiq Labs logo"
@@ -107,6 +116,11 @@ const Footer: React.FC = () => {
               <Link
                 key={path}
                 to={path}
+                onClick={() => trackEvent({
+                  action: ANALYTICS_EVENTS.LINK_CLICK,
+                  category: ANALYTICS_CATEGORIES.INTERACTION,
+                  label,
+                })}
                 style={{
                   display: "block", background: "none", border: "none", cursor: "pointer",
                   fontSize: 13.5, color: "#4a5a6e", fontFamily: "sans-serif",
@@ -160,8 +174,15 @@ const Footer: React.FC = () => {
               <div key={text} style={{ display: "flex", gap: 10, alignItems: "flex-start", marginBottom: 12 }} className="footer-contact-item">
                 <span style={{ fontSize: 14 }}>{icon}</span>
                 {href ? (
-                  <a href={href} target={href.startsWith("http") ? "_blank" : undefined}
+                  <a
+                    href={href}
+                    target={href.startsWith("http") ? "_blank" : undefined}
                     rel="noreferrer"
+                    onClick={() => trackEvent({
+                      action: href.startsWith("mailto:") ? ANALYTICS_EVENTS.EMAIL_CLICK : href.startsWith("tel:") ? ANALYTICS_EVENTS.PHONE_CLICK : ANALYTICS_EVENTS.LINK_CLICK,
+                      category: ANALYTICS_CATEGORIES.CONVERSION,
+                      label: ANALYTICS_LABELS.FOOTER_LINK,
+                    })}
                     style={{ fontSize: 13, color: "#4a5a6e", fontFamily: "sans-serif", textDecoration: "none", lineHeight: 1.5 }}>
                     {text}
                   </a>

@@ -35,6 +35,7 @@ export const ANALYTICS_EVENTS = {
   TIME_ON_PAGE: 'time_on_page',
   VIDEO_PLAY: 'video_play',
   VIDEO_COMPLETE: 'video_complete',
+  CARD_CLICK: 'card_click',
 
   // E-commerce Events (if applicable)
   PRODUCT_VIEW: 'product_view',
@@ -56,6 +57,11 @@ export const ANALYTICS_LABELS = {
   SECONDARY_CTA: 'secondary_cta',
   HEADER_NAV: 'header_nav',
   FOOTER_LINK: 'footer_link',
+  SERVICES_CTA: 'services_cta',
+  PREV_SLIDE: 'prev_slide',
+  NEXT_SLIDE: 'next_slide',
+  TESTIMONIAL_DOT: 'testimonial_dot',
+  WHY_US_CARD: 'why_us_card',
   SOCIAL_LINK: 'social_link',
   CONTACT_FORM: 'contact_form',
   NEWSLETTER_SIGNUP: 'newsletter_signup',

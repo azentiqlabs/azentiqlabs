@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-import { initGoogleAnalytics, trackPageView } from "./utils/analytics";
+import { initGoogleAnalytics, trackPageView, trackEvent } from "./utils/analytics";
+import { ANALYTICS_EVENTS, ANALYTICS_CATEGORIES } from "./constants/analytics";
 import Layout from './components/Layout';
 import Hero from './components/Hero';
 import Services from './components/Services';
@@ -15,7 +16,13 @@ const RouteTracker: React.FC = () => {
   const location = useLocation();
 
   useEffect(() => {
-    trackPageView(location.pathname + location.search);
+    const path = location.pathname + location.search;
+    trackPageView(path);
+    trackEvent({
+      action: ANALYTICS_EVENTS.PAGE_VIEW,
+      category: ANALYTICS_CATEGORIES.NAVIGATION,
+      label: path,
+    });
   }, [location]);
 
   return null;

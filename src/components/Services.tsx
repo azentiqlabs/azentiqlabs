@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { SERVICES } from "../data";
+import { ANALYTICS_EVENTS, ANALYTICS_CATEGORIES, ANALYTICS_LABELS } from "../constants/analytics";
+import { trackEvent } from "../utils/analytics";
 import type { Service } from "../types";
 
 interface ServiceCardProps {
@@ -13,6 +15,11 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, index, visible }) =>
 
   return (
     <div
+      onClick={() => trackEvent({
+        action: ANALYTICS_EVENTS.SERVICE_INQUIRY,
+        category: ANALYTICS_CATEGORIES.BUSINESS,
+        label: service.title,
+      })}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
@@ -291,13 +298,21 @@ const Services: React.FC = () => {
             Let's discuss your project and create something extraordinary together. Get a free consultation and project estimate.
           </p>
           <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
-            <a href="/contact" style={{
+            <a href="/contact" onClick={() => trackEvent({
+              action: ANALYTICS_EVENTS.BUTTON_CLICK,
+              category: ANALYTICS_CATEGORIES.CONVERSION,
+              label: ANALYTICS_LABELS.PRIMARY_CTA,
+            })} style={{
               background: "#060a12", color: "#C9A84C", border: "none",
               borderRadius: 8, padding: "14px 28px", fontSize: 16, fontWeight: 800,
               cursor: "pointer", fontFamily: "sans-serif", textDecoration: "none",
               display: "inline-block", transition: "all 0.2s",
             }}>Get Free Consultation</a>
-            <a href="/testimonials" style={{
+            <a href="/testimonials" onClick={() => trackEvent({
+              action: ANALYTICS_EVENTS.LINK_CLICK,
+              category: ANALYTICS_CATEGORIES.INTERACTION,
+              label: ANALYTICS_LABELS.SECONDARY_CTA,
+            })} style={{
               background: "transparent", color: "#060a12", border: "2px solid #060a12",
               borderRadius: 8, padding: "12px 26px", fontSize: 16, fontWeight: 800,
               cursor: "pointer", fontFamily: "sans-serif", textDecoration: "none",

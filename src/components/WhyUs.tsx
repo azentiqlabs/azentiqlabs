@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { WHY_US, CITIES } from "../data";
 import type { WhyItem } from "../types";
+import { ANALYTICS_EVENTS, ANALYTICS_CATEGORIES, ANALYTICS_LABELS } from "../constants/analytics";
+import { trackEvent } from "../utils/analytics";
 
 interface WhyCardProps {
   item: WhyItem;
@@ -138,7 +140,13 @@ const WhyUs: React.FC = () => {
         }}>
           {WHY_US.map((item, i) => (
             <div key={i} data-idx={i} ref={(el) => (itemRefs.current[i] = el)}>
-              <WhyCard item={item} index={i} visible={visibleItems.includes(i)} />
+              <div onClick={() => trackEvent({
+                action: ANALYTICS_EVENTS.CARD_CLICK,
+                category: ANALYTICS_CATEGORIES.INTERACTION,
+                label: `why_us_card_${i}`,
+              })}>
+                <WhyCard item={item} index={i} visible={visibleItems.includes(i)} />
+              </div>
             </div>
           ))}
         </div>

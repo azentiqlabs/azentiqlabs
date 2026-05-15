@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { NAV_LINKS } from "../data";
+import { ANALYTICS_EVENTS, ANALYTICS_CATEGORIES, ANALYTICS_LABELS } from "../constants/analytics";
+import { trackEvent } from "../utils/analytics";
 
 const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -30,6 +32,11 @@ const Navbar: React.FC = () => {
         {/* Logo */}
         <Link
           to="/"
+          onClick={() => trackEvent({
+            action: ANALYTICS_EVENTS.LINK_CLICK,
+            category: ANALYTICS_CATEGORIES.INTERACTION,
+            label: ANALYTICS_LABELS.HEADER_NAV,
+          })}
           style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer", flexShrink: 0, textDecoration: "none" }}
         >
           <img
@@ -57,6 +64,11 @@ const Navbar: React.FC = () => {
             <Link
               key={id}
               to={id === "home" ? "/" : `/${id}`}
+              onClick={() => trackEvent({
+                action: ANALYTICS_EVENTS.LINK_CLICK,
+                category: ANALYTICS_CATEGORIES.INTERACTION,
+                label: ANALYTICS_LABELS.HEADER_NAV,
+              })}
               style={{
                 textDecoration: "none",
                 background: "none", border: "none", cursor: "pointer",
@@ -82,6 +94,11 @@ const Navbar: React.FC = () => {
         <Link
           to="/contact"
           className="get-started-btn"
+          onClick={() => trackEvent({
+            action: ANALYTICS_EVENTS.BUTTON_CLICK,
+            category: ANALYTICS_CATEGORIES.CONVERSION,
+            label: ANALYTICS_LABELS.PRIMARY_CTA,
+          })}
           style={{
             textDecoration: "none",
             background: "linear-gradient(135deg, #C9A84C, #b8942e)",
@@ -97,7 +114,14 @@ const Navbar: React.FC = () => {
 
         {/* Hamburger — shown on mobile via CSS class */}
         <button
-          onClick={() => setMenuOpen(!menuOpen)}
+          onClick={() => {
+            setMenuOpen(!menuOpen);
+            trackEvent({
+              action: ANALYTICS_EVENTS.BUTTON_CLICK,
+              category: ANALYTICS_CATEGORIES.INTERACTION,
+              label: ANALYTICS_LABELS.HEADER_NAV,
+            });
+          }}
           className="hamburger"
           style={{
             background: "none", border: "none", cursor: "pointer",
@@ -160,7 +184,14 @@ const Navbar: React.FC = () => {
             <Link
               key={id}
               to={id === "home" ? "/" : `/${id}`}
-              onClick={() => setMenuOpen(false)}
+              onClick={() => {
+                setMenuOpen(false);
+                trackEvent({
+                  action: ANALYTICS_EVENTS.LINK_CLICK,
+                  category: ANALYTICS_CATEGORIES.INTERACTION,
+                  label: ANALYTICS_LABELS.HEADER_NAV,
+                });
+              }}
               style={{
                 display: "block", width: "100%", textAlign: "left",
                 background: "none", border: "none", padding: "14px 0",
@@ -175,7 +206,14 @@ const Navbar: React.FC = () => {
           ))}
           <Link
             to="/contact"
-            onClick={() => setMenuOpen(false)}
+            onClick={() => {
+              setMenuOpen(false);
+              trackEvent({
+                action: ANALYTICS_EVENTS.BUTTON_CLICK,
+                category: ANALYTICS_CATEGORIES.CONVERSION,
+                label: ANALYTICS_LABELS.PRIMARY_CTA,
+              });
+            }}
             style={{
               marginTop: 16, width: "100%", display: "block",
               background: "linear-gradient(135deg,#C9A84C,#b8942e)",

@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { TESTIMONIALS } from "../data";
+import { ANALYTICS_EVENTS, ANALYTICS_CATEGORIES, ANALYTICS_LABELS } from "../constants/analytics";
+import { trackEvent } from "../utils/analytics";
 
 const StarRating: React.FC<{ count: number }> = ({ count }) => (
   <div style={{ display: "flex", gap: 3 }}>
@@ -173,7 +175,14 @@ const Testimonials: React.FC = () => {
           display: "flex", alignItems: "center", justifyContent: "center", gap: 16,
           opacity: visible ? 1 : 0, transition: "opacity 0.8s ease 0.4s",
         }}>
-          <button onClick={prev} style={{
+          <button onClick={() => {
+            prev();
+            trackEvent({
+              action: ANALYTICS_EVENTS.BUTTON_CLICK,
+              category: ANALYTICS_CATEGORIES.INTERACTION,
+              label: ANALYTICS_LABELS.PREV_SLIDE,
+            });
+          }} style={{
             width: 44, height: 44, borderRadius: "50%",
             background: "rgba(201,168,76,0.1)", border: "1px solid rgba(201,168,76,0.3)",
             color: "#C9A84C", fontSize: 18, cursor: "pointer", transition: "all 0.2s",
@@ -181,7 +190,14 @@ const Testimonials: React.FC = () => {
 
           <div style={{ display: "flex", gap: 8 }}>
             {TESTIMONIALS.map((_, i) => (
-              <button key={i} onClick={() => setCurrent(i)} style={{
+              <button key={i} onClick={() => {
+                setCurrent(i);
+                trackEvent({
+                  action: ANALYTICS_EVENTS.BUTTON_CLICK,
+                  category: ANALYTICS_CATEGORIES.INTERACTION,
+                  label: `testimonial_dot_${i}`,
+                });
+              }} style={{
                 width: i === current ? 24 : 8, height: 8,
                 borderRadius: 4, border: "none", cursor: "pointer",
                 background: i === current ? "#C9A84C" : "rgba(201,168,76,0.25)",
@@ -190,7 +206,14 @@ const Testimonials: React.FC = () => {
             ))}
           </div>
 
-          <button onClick={next} style={{
+          <button onClick={() => {
+            next();
+            trackEvent({
+              action: ANALYTICS_EVENTS.BUTTON_CLICK,
+              category: ANALYTICS_CATEGORIES.INTERACTION,
+              label: ANALYTICS_LABELS.NEXT_SLIDE,
+            });
+          }} style={{
             width: 44, height: 44, borderRadius: "50%",
             background: "rgba(201,168,76,0.1)", border: "1px solid rgba(201,168,76,0.3)",
             color: "#C9A84C", fontSize: 18, cursor: "pointer", transition: "all 0.2s",

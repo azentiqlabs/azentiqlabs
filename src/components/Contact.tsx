@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { CONTACT_INFO, FORM_LABELS, FORM_PLACEHOLDERS, ERROR_MESSAGES, SUCCESS_MESSAGES } from "../constants";
+import { ANALYTICS_EVENTS, ANALYTICS_CATEGORIES, ANALYTICS_LABELS } from "../constants/analytics";
+import { trackEvent } from "../utils/analytics";
 import { SERVICES } from "../data"; // Keep services from data as it's dynamic content
 import type { FormData, FormStatus } from "../types";
 import emailjs from "@emailjs/browser";
@@ -29,6 +31,12 @@ const Contact: React.FC = () => {
 const handleSubmit = async (): Promise<void> => {
   if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
     setFormStatus("error");
+    trackEvent({
+      action: ANALYTICS_EVENTS.FORM_ERROR,
+      category: ANALYTICS_CATEGORIES.CONVERSION,
+      label: ANALYTICS_LABELS.CONTACT_FORM,
+      value: 0,
+    });
     setTimeout(() => setFormStatus(null), 4000);
     return;
   }
@@ -50,11 +58,24 @@ const handleSubmit = async (): Promise<void> => {
     );
 
     setFormStatus("success");
+    trackEvent({
+      action: ANALYTICS_EVENTS.FORM_SUBMIT,
+      category: ANALYTICS_CATEGORIES.CONVERSION,
+      label: ANALYTICS_LABELS.CONTACT_FORM,
+      value: 1,
+    });
     setFormData({ name: "", email: "", phone: "", service: "", message: "" });
     setTimeout(() => setFormStatus(null), 5000);
 
   } catch (err) {
     console.error("EmailJS error:", err);
+    trackEvent({
+      action: ANALYTICS_EVENTS.FORM_ERROR,
+      category: ANALYTICS_CATEGORIES.CONVERSION,
+      label: ANALYTICS_LABELS.CONTACT_FORM,
+      value: 0,
+      error: String(err),
+    });
     setFormStatus("error");
     setTimeout(() => setFormStatus(null), 4000);
   }
@@ -419,13 +440,23 @@ const handleSubmit = async (): Promise<void> => {
             Join hundreds of satisfied clients who have transformed their businesses with Azentiq Labs. Your success story starts here.
           </p>
           <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
-            <a href="tel:+918329305232" style={{
+            <a href="tel:+918329305232" onClick={() => trackEvent({
+              action: ANALYTICS_EVENTS.PHONE_CLICK,
+              category: ANALYTICS_CATEGORIES.CONVERSION,
+              label: ANALYTICS_LABELS.FOOTER_LINK,
+            })}
+            style={{
               background: "#060a12", color: "#C9A84C", border: "none",
               borderRadius: 8, padding: "14px 28px", fontSize: 16, fontWeight: 800,
               cursor: "pointer", fontFamily: "sans-serif", textDecoration: "none",
               display: "inline-block", transition: "all 0.2s",
             }}>📞 Call Now: +91 83293 05232</a>
-            <a href="mailto:azentiqlabs@gmail.com" style={{
+            <a href="mailto:azentiqlabs@gmail.com" onClick={() => trackEvent({
+              action: ANALYTICS_EVENTS.EMAIL_CLICK,
+              category: ANALYTICS_CATEGORIES.CONVERSION,
+              label: ANALYTICS_LABELS.FOOTER_LINK,
+            })}
+            style={{
               background: "transparent", color: "#060a12", border: "2px solid #060a12",
               borderRadius: 8, padding: "12px 26px", fontSize: 16, fontWeight: 800,
               cursor: "pointer", fontFamily: "sans-serif", textDecoration: "none",

@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { BEFORE_AFTER } from "../data";
+import { ANALYTICS_EVENTS, ANALYTICS_CATEGORIES, ANALYTICS_LABELS } from "../constants/analytics";
+import { trackEvent } from "../utils/analytics";
 
 const BeforeAfter: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
@@ -56,7 +58,14 @@ const BeforeAfter: React.FC = () => {
           opacity: visible ? 1 : 0, transition: "opacity 0.6s ease 0.2s",
         }}>
           {BEFORE_AFTER.map((item, i) => (
-            <button key={i} onClick={() => setActiveTab(i)} style={{
+            <button key={i} onClick={() => {
+              setActiveTab(i);
+              trackEvent({
+                action: ANALYTICS_EVENTS.BUTTON_CLICK,
+                category: ANALYTICS_CATEGORIES.INTERACTION,
+                label: `before_after_tab_${i}`,
+              });
+            }} style={{
               padding: "12px 24px", borderRadius: 10, cursor: "pointer",
               fontFamily: "sans-serif", fontSize: 13, fontWeight: 700, letterSpacing: 0.5,
               transition: "all 0.3s",
@@ -178,7 +187,11 @@ const BeforeAfter: React.FC = () => {
             <p style={{ fontSize: 15, color: "#9ab0c8", fontFamily: "sans-serif", marginBottom: 16 }}>
               Want results like these for your business?
             </p>
-            <a href="/contact" style={{
+            <a href="/contact" onClick={() => trackEvent({
+              action: ANALYTICS_EVENTS.BUTTON_CLICK,
+              category: ANALYTICS_CATEGORIES.CONVERSION,
+              label: ANALYTICS_LABELS.PRIMARY_CTA,
+            })} style={{
               background: "linear-gradient(135deg, #C9A84C, #b8942e)",
               color: "#060a12", border: "none", borderRadius: 8,
               padding: "14px 36px", fontSize: 14, fontWeight: 800,
@@ -341,13 +354,21 @@ const BeforeAfter: React.FC = () => {
             Let's discuss your project and create measurable results that drive your business forward.
           </p>
           <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
-            <a href="/contact" style={{
+            <a href="/contact" onClick={() => trackEvent({
+              action: ANALYTICS_EVENTS.BUTTON_CLICK,
+              category: ANALYTICS_CATEGORIES.CONVERSION,
+              label: ANALYTICS_LABELS.PRIMARY_CTA,
+            })} style={{
               background: "#060a12", color: "#C9A84C", border: "none",
               borderRadius: 8, padding: "14px 28px", fontSize: 16, fontWeight: 800,
               cursor: "pointer", fontFamily: "sans-serif", textDecoration: "none",
               display: "inline-block", transition: "all 0.2s",
             }}>Start Your Project</a>
-            <a href="/testimonials" style={{
+            <a href="/testimonials" onClick={() => trackEvent({
+              action: ANALYTICS_EVENTS.LINK_CLICK,
+              category: ANALYTICS_CATEGORIES.INTERACTION,
+              label: ANALYTICS_LABELS.SECONDARY_CTA,
+            })} style={{
               background: "transparent", color: "#060a12", border: "2px solid #060a12",
               borderRadius: 8, padding: "12px 26px", fontSize: 16, fontWeight: 800,
               cursor: "pointer", fontFamily: "sans-serif", textDecoration: "none",

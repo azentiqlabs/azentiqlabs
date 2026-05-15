@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
+import { ANALYTICS_EVENTS, ANALYTICS_CATEGORIES, ANALYTICS_LABELS } from "../constants/analytics";
+import { trackEvent } from "../utils/analytics";
 
 const PHASES = [
   {
@@ -402,7 +404,14 @@ const BusinessStrategy: React.FC = () => {
           </p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
             <button
-              onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+              onClick={() => {
+                trackEvent({
+                  action: ANALYTICS_EVENTS.BUTTON_CLICK,
+                  category: ANALYTICS_CATEGORIES.CONVERSION,
+                  label: ANALYTICS_LABELS.PRIMARY_CTA,
+                });
+                document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+              }}
               style={{
                 background: "linear-gradient(135deg, #C9A84C, #b8942e)",
                 color: "#060a12", border: "none", borderRadius: 8,
@@ -413,13 +422,21 @@ const BusinessStrategy: React.FC = () => {
             >
               Book Free Strategy Call →
             </button>
-            <a href="tel:+918329305232" style={{
-              background: "transparent", color: "#C9A84C",
-              border: "1.5px solid rgba(201,168,76,0.4)", borderRadius: 8,
-              padding: "16px 36px", fontSize: 14, fontWeight: 700,
-              cursor: "pointer", fontFamily: "sans-serif",
-              textDecoration: "none", display: "inline-block",
-            }}>
+            <a
+              href="tel:+918329305232"
+              onClick={() => trackEvent({
+                action: ANALYTICS_EVENTS.PHONE_CLICK,
+                category: ANALYTICS_CATEGORIES.CONVERSION,
+                label: ANALYTICS_LABELS.FOOTER_LINK,
+              })}
+              style={{
+                background: "transparent", color: "#C9A84C",
+                border: "1.5px solid rgba(201,168,76,0.4)", borderRadius: 8,
+                padding: "16px 36px", fontSize: 14, fontWeight: 700,
+                cursor: "pointer", fontFamily: "sans-serif",
+                textDecoration: "none", display: "inline-block",
+              }}
+            >
               📞 +91 83293 05232
             </a>
           </div>

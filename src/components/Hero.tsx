@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { STATS } from "../data";
 import { ServiceCard, WhyCard, ProjectCard, TestimonialCard, CTASection } from "./shared";
 import type { Stat } from "../types";
+import { ANALYTICS_EVENTS, ANALYTICS_CATEGORIES, ANALYTICS_LABELS } from "../constants/analytics";
+import { trackEvent } from "../utils/analytics";
 
 const StatItem: React.FC<{ stat: Stat; delay: number }> = ({ stat, delay }) => (
   <div style={{
@@ -179,6 +181,11 @@ const Hero: React.FC = () => {
           <div style={{ display: "flex", gap: 14, flexWrap: "wrap", marginBottom: 60, animation: "fadeUp 0.6s ease 0.4s both" }}>
             <Link
               to="/contact"
+              onClick={() => trackEvent({
+                action: ANALYTICS_EVENTS.BUTTON_CLICK,
+                category: ANALYTICS_CATEGORIES.CONVERSION,
+                label: ANALYTICS_LABELS.PRIMARY_CTA,
+              })}
               style={{
                 background: "linear-gradient(135deg, #C9A84C, #b8942e)",
                 color: "#060a12", border: "none", borderRadius: 8,
@@ -193,6 +200,11 @@ const Hero: React.FC = () => {
             </Link>
             <Link
               to="/services"
+              onClick={() => trackEvent({
+                action: ANALYTICS_EVENTS.LINK_CLICK,
+                category: ANALYTICS_CATEGORIES.INTERACTION,
+                label: ANALYTICS_LABELS.SECONDARY_CTA,
+              })}
               style={{
                 background: "transparent", color: "#fff",
                 border: "1.5px solid rgba(255,255,255,0.2)", borderRadius: 8,
@@ -360,7 +372,11 @@ const Hero: React.FC = () => {
         </div>
 
         <div style={{ textAlign: "center", marginTop: 60 }}>
-          <a href="/services" style={{
+          <a href="/services" onClick={() => trackEvent({
+            action: ANALYTICS_EVENTS.LINK_CLICK,
+            category: ANALYTICS_CATEGORIES.INTERACTION,
+            label: ANALYTICS_LABELS.SERVICES_CTA,
+          })} style={{
             background: "linear-gradient(135deg, #C9A84C, #b8942e)",
             color: "#060a12", border: "none", borderRadius: 8,
             padding: "16px 32px", fontSize: 16, fontWeight: 800,
@@ -430,7 +446,11 @@ const Hero: React.FC = () => {
         </div>
 
         <div style={{ textAlign: "center" }}>
-          <a href="/why-us" style={{
+          <a href="/why-us" onClick={() => trackEvent({
+            action: ANALYTICS_EVENTS.LINK_CLICK,
+            category: ANALYTICS_CATEGORIES.INTERACTION,
+            label: ANALYTICS_LABELS.SECONDARY_CTA,
+          })} style={{
             background: "transparent", color: "#C9A84C",
             border: "2px solid rgba(201,168,76,0.4)", borderRadius: 8,
             padding: "14px 28px", fontSize: 16, fontWeight: 700,
@@ -510,7 +530,11 @@ const Hero: React.FC = () => {
         </div>
 
         <div style={{ textAlign: "center" }}>
-          <a href="/before-after" style={{
+          <a href="/before-after" onClick={() => trackEvent({
+            action: ANALYTICS_EVENTS.LINK_CLICK,
+            category: ANALYTICS_CATEGORIES.INTERACTION,
+            label: ANALYTICS_LABELS.SECONDARY_CTA,
+          })} style={{
             background: "linear-gradient(135deg, #C9A84C, #b8942e)",
             color: "#060a12", border: "none", borderRadius: 8,
             padding: "16px 32px", fontSize: 16, fontWeight: 800,
@@ -582,7 +606,11 @@ const Hero: React.FC = () => {
         </div>
 
         <div style={{ textAlign: "center" }}>
-          <a href="/testimonials" style={{
+          <a href="/testimonials" onClick={() => trackEvent({
+            action: ANALYTICS_EVENTS.LINK_CLICK,
+            category: ANALYTICS_CATEGORIES.INTERACTION,
+            label: ANALYTICS_LABELS.SECONDARY_CTA,
+          })} style={{
             background: "transparent", color: "#C9A84C",
             border: "2px solid rgba(201,168,76,0.4)", borderRadius: 8,
             padding: "14px 28px", fontSize: 16, fontWeight: 700,
