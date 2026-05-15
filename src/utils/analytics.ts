@@ -29,9 +29,11 @@ export const initGoogleAnalytics = () => {
 
   window.dataLayer = window.dataLayer || [];
   window.gtag = function gtag(...args: unknown[]) {
+    console.log("[GA]", ...args);
     window.dataLayer?.push(args);
   };
 
+  console.log("[GA] init", ANALYTICS_CONFIG.GTAG_ID);
   window.gtag('js', new Date());
   window.gtag('config', ANALYTICS_CONFIG.GTAG_ID, { send_page_view: false });
 };
